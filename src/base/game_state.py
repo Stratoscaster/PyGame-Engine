@@ -5,10 +5,12 @@ from tools.audio import Audio
 from tools.sprite_image_manager import SpriteImgManager
 from base.player_entity import PlayerEntity
 from base.player_entity import StaticEntity
+from tools.physics_engine import PhysicsEngine
 class GameState:
     def __init__(self, persist, needed_sprite_names):
         self.sprite_manager = SpriteImgManager(needed_sprite_names)
         self.persist = persist
+        self.physics = PhysicsEngine()
         self.gfx  = GFX()
         self.audio = Audio()
         self.actor = self
@@ -19,13 +21,12 @@ class GameState:
         self.gfx.update()
         self.detect_collisions()
 
-
-
     def draw(self, display):
         self.gfx.draw(display)
 
     def add_sprite(self, sprite, layer):
         self.gfx.add(sprite, layer)
+        self.physics.add_sprite(sprite)
 
     def cleanup(self):
         self.is_done = False

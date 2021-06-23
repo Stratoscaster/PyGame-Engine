@@ -1,7 +1,7 @@
 import pygame
 import tools.constants as c
 import tools.color_list as colors
-
+from tools.physics_engine import PhysicsEngine
 # StaticEntity is a class that inherits Sprite
 # StaticEntity would represent something that can only move, and nothing else. It would not have game-based mechanics such as health, etc
 # StaticEntity cannot be controlled by the player
@@ -29,10 +29,16 @@ class StaticEntity(pygame.sprite.Sprite):
         self.stay_on_target_vel_x = False
         self.stay_on_target_vel_y = False
         self.collision_enabled = False
+        self.physics_engine_set = False
 
     def update(self):
         self.update_vel()
         self.update_pos()
+
+    def set_physics_engine(self, physics_engine: PhysicsEngine):
+        self.physics_engine_set = True
+        self.physics_engine = physics_engine
+
 
     def update_vel(self):
         if not self.target_vel_x_active:

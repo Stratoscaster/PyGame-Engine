@@ -42,3 +42,12 @@ class GFX:
 
     def add(self, sprite, layer):
         self.layers[layer].add(sprite)
+
+    def remove_sprite(self, sprite):
+        for layer in self.layers:
+            if layer.has(sprite):
+                layer.remove(sprite)
+                return
+
+        print('gfx.remove_sprite() failed - sprite not in layers')
+

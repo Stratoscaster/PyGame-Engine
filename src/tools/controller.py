@@ -43,6 +43,7 @@ class Controller:
         self.clock.tick(c.FPS)
 
     def update_events(self):
+        self.current_state.physics.update_dt_frame_scaling(self.dt)
         self.current_state.actor.update_dt_frame_scaling(self.dt)
         self.event_handler.handle_events(self.current_state.actor)
 
