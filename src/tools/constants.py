@@ -1,4 +1,16 @@
 import os
+import pymunk
+# PYMUNK PHYSICS
+    # Player Physics Characteristics
+PLAYER_MASS = 1
+PLAYER_INERTIA = 100
+PLAYER_BODY_TYPE = pymunk.Body.DYNAMIC
+
+    # Dirt Physics Characteristics
+DIRT_MASS = 1
+DIRT_INERTIA = 100
+DIRT_BODY_TYPE = pymunk.Body.STATIC
+
 # User Input Info
 # Keyboard
 UP_ARROW = 'UP_ARROW'

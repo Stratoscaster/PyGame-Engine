@@ -12,8 +12,8 @@ from base.dynamic_entity import DynamicEntity
 
 class CharacterEntity(DynamicEntity):
 
-    def __init__(self, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
-        super(CharacterEntity, self).__init__(image)
+    def __init__(self, physics_body=None, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
+        super(CharacterEntity, self).__init__(physics_body, image)
         self.stats = {} # Would hold health, ammo, speed, etc
 
     def create_stat(self, name, value=None):

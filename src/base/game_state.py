@@ -6,20 +6,38 @@ from tools.sprite_image_manager import SpriteImgManager
 from base.player_entity import PlayerEntity
 from base.player_entity import StaticEntity
 from tools.physics_engine import PhysicsEngine
+import tools.constants as c
+
+import pymunk
 class GameState:
     def __init__(self, persist, needed_sprite_names):
         self.sprite_manager = SpriteImgManager(needed_sprite_names)
         self.persist = persist
-        self.physics = PhysicsEngine()
+        self.physics = PhysicsEngine(self)
         self.gfx  = GFX()
         self.audio = Audio()
         self.actor = self
         self.is_controllable = False
         self.is_done = False
 
+    def initialize_player(self, start_pos: tuple):
+        self.player = PlayerEntity(image=self.sprite_manager.get_img(c.PLAYER_SPRITE_NAME))
+        self.player.pos_x = start_pos[0]
+        self.player.pos_y = start_pos[1]
+
+        player_body = pymunk.Body(c.PLAYER_MASS, c.PLAYER_INERTIA, body_type=c.PLAYER_BODY_TYPE)
+        player_body.position = self.player.get_pos()
+        player_rect_verts = [self.player.rect.topleft, self.player.rect.topright, self.player.rect.bottomright,
+                             self.player.rect.bottomleft]
+        player_body_shape = pymunk.shapes.Poly(body=player_body, vertices=player_rect_verts)
+
+        self.physics.add_object_to_space(player_body, player_body_shape)
+        self.player.set_physics_shape(player_body_shape)
+
+
     def update(self):
+        self.physics.update()
         self.gfx.update()
-        self.detect_collisions()
 
     def draw(self, display):
         self.gfx.draw(display)
