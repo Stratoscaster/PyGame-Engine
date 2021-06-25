@@ -12,20 +12,19 @@ class SplashScreen(GameState):
         needed_sprites = [c.PLAYER_SPRITE_NAME, c.DIRT_32x32_SPRITE_NAME]
         super(SplashScreen, self).__init__(persists, needed_sprites)
         # Add Dirt ground
-        # self.dirt_sprites = []
-        # num_dirt_layers = 2
-        # for j in range(0, num_dirt_layers):
-        #     for i in range(0, c.DISPLAY_HEIGHT // 32):
-        #         dirt = StaticEntity(image=self.sprite_manager.get_img(c.DIRT_32x32_SPRITE_NAME))
-        #         dirt.set_pos((i * 32 , c.NATIVE_HEIGHT - (32 * (j + 1))))
-        #         # dirt_body = pymunk.Body(c.DIRT_MASS, c.DIRT_INERTIA, body_type=c.DIRT_BODY_TYPE)
-        #         # dirt_body.position = dirt.get_pos()
-        #         # dirt.set_physics_body(dirt_body)
-        #         self.dirt_sprites.append(dirt)
-        #         self.add_sprite(dirt, 3)
-
+        self.dirt_sprites = []
         num_dirt_layers = 2
-        ground_y = c.NATIVE_HEIGHT - (32 * (num_dirt_layers)) # y coord of top of ground
+        for j in range(0, num_dirt_layers):
+            for i in range(0, c.DISPLAY_HEIGHT // 32):
+                dirt = StaticEntity(image=self.sprite_manager.get_img(c.DIRT_32x32_SPRITE_NAME))
+                dirt.set_pos((i * 32 , c.NATIVE_HEIGHT - (32 * (j + 1))))
+                dirt.set_physics_engine(self.physics)
+                dirt.create_set_get_physics_shape(c.DIRT_MASS, c.DIRT_INERTIA, c.DIRT_BODY_TYPE)
+                self.dirt_sprites.append(dirt)
+                self.add_sprite(dirt, 3)
+
+        # Calculate ground height, init player
+        ground_y = c.NATIVE_HEIGHT - (32 * (num_dirt_layers))
 
         self.initialize_player((100, ground_y))
 

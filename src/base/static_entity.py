@@ -9,7 +9,7 @@ import pymunk
 # StaticEntities do not have animations or states
 
 class StaticEntity(pygame.sprite.Sprite):
-    def __init__(self, physics_shape=None, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
+    def __init__(self, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
         super(StaticEntity, self).__init__()
         self.image = image
         self.rect = self.image.get_rect()
@@ -19,12 +19,16 @@ class StaticEntity(pygame.sprite.Sprite):
         self.vel_y = 0.0
 
         self.physics_engine_set = False
-        self.physics_shape = physics_shape
+        self.physics_engine = None
+        self.physics_shape = None
 
     def update(self):
         self.update_vel()
         self.update_pos()
-        print(self.pos_x, self.pos_y)
+        print('sprite pos:', self.pos_x, self.pos_y)
+        print('rect pos:', self.rect.x, self.rect.y)
+        print('!physics_shape_pos', self.physics_shape.body.position[0], self.physics_shape.body.position[1])
+
 
     def set_physics_engine(self, physics_engine: PhysicsEngine):
         self.physics_engine_set = True
@@ -33,25 +37,43 @@ class StaticEntity(pygame.sprite.Sprite):
     def set_physics_shape(self, shape: pymunk.Shape):
         self.physics_shape = shape
 
+    def create_set_get_physics_shape(self, entity_mass, entity_inertia, entity_body_type):
+        entity_body = pymunk.Body(entity_mass, entity_inertia, entity_body_type)
+        entity_body.position = (self.pos_x, self.pos_y)
+        entity_rect_verts = [self.rect.topleft, self.rect.topright, self.rect.bottomright, self.rect.bottomleft]
+        entity_shape = pymunk.shapes.Poly(body=entity_body, vertices=entity_rect_verts)
+        self.set_physics_shape(entity_shape)
+        self.physics_engine.add_object_to_space(entity_shape.body, entity_shape)
+        return entity_shape
+
     def update_vel(self):
         pass
 
     def update_pos(self):
-        if self.physics_shape is not None and isinstance(self.physics_shape, pymunk.Shape):
-            self.pos_x = self.physics_shape.body.position[0]
-            self.pos_y = self.physics_shape.body.position[1]
-            self.rect.x = self.pos_x
-            self.rect.y = self.pos_y
+        if self.physics_shape is not None:
+            print('test')
+            self.pos_x = int(self.physics_shape.body.position[0])
+            self.pos_y = int(self.physics_shape.body.position[1])
+            self.rect.x = int(self.pos_x)
+            self.rect.y = int(self.pos_y)
         else:
-            pass
+            print('No physics shape for static entity.')
 
     #####################
     # Getters & Setters #
     #####################
 
     def set_pos(self, xy):
-        self.pos_x = xy[0]
-        self.pos_y = xy[1]
+        self.set_pos_x(xy[0])
+        self.set_pos_y(xy[1])
+
+    def set_pos_x(self, x):
+        self.pos_x = x
+        self.rect.centerx = int(x)
+
+    def set_pos_y(self, y):
+        self.pos_y = y
+        self.rect.centery = int(self.pos_y)
 
     def get_pos(self):
         return (self.pos_x, self.pos_y)
@@ -86,8 +108,6 @@ class StaticEntity(pygame.sprite.Sprite):
         if acc_y is None:
             acc_y = self.acc_y
         self.target_vel_y = target_vel_y
-
-
         self.acc_y = abs(acc_y)
         self.target_vel_y_active = True
         self.stay_on_target_vel_y = stay_on_target_vel_y

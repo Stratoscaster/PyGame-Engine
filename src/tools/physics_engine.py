@@ -1,13 +1,15 @@
 import pygame
 import pymunk
 import tools.constants as c
+
 class PhysicsEngine:
 
     def __init__(self, game_state):
+        self.game_state = game_state
         self.sprites = []
         self.dt = 1
         self.space = pymunk.Space()
-        self.space.gravity = (0 , 500)
+        self.space.gravity = (0 , 100)
 
     def add_sprite(self, sprite):
         from base.static_entity import StaticEntity
@@ -30,15 +32,20 @@ class PhysicsEngine:
             for step in range(0, number_of_steps):
                 self.space.step(seconds_to_simulate / number_of_steps)
 
+        for body in self.space.bodies:
+            print('body in space:', body.position)
+
+
     def update_sprites(self):
         for sprite in self.sprites:
             sprite.update()
 
-    def add_object_to_space(self, body, space):
-        self.space.add(body, space)
+    def add_object_to_space(self, body, shape):
+        self.space.add(body, shape)
 
     def update_dt_frame_scaling(self, dt):
         self.dt = dt
+
 
 class CollisionDetection:
 

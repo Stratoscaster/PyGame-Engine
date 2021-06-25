@@ -11,8 +11,8 @@ import tools.constants as c
 
 class DynamicEntity(StaticEntity):
 
-    def __init__(self, physics_body=None, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
-        super(DynamicEntity, self).__init__(physics_body, image)
+    def __init__(self, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
+        super(DynamicEntity, self).__init__(image)
         self.states = EntityStateGroup()
         self.animations = AnimationGroup()
 

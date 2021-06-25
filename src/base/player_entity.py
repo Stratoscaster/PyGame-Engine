@@ -13,8 +13,8 @@ class PlayerEntity(CharacterEntity):
     WALK_SPEED_NAME = 'WALK_SPEED'
     WALK_ACCEL_NAME = 'WALK_ACCEL'
 
-    def __init__(self, physics_body=None, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
-        super(PlayerEntity, self).__init__(physics_body, image)
+    def __init__(self, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
+        super(PlayerEntity, self).__init__(image)
         self.create_stat(self.WALK_SPEED_NAME, 2)
         self.create_stat(self.WALK_ACCEL_NAME, 1.25)
         self.right_arrow_held = False
@@ -43,10 +43,6 @@ class PlayerEntity(CharacterEntity):
             self.left_arrow_held = True
             self.set_target_vel_x(-1 * self.get_stat(self.WALK_SPEED_NAME), self.get_stat(self.WALK_ACCEL_NAME))
 
-    def update_pos(self):
-        pass
 
-    def update_vel(self):
-        pass
 
 
