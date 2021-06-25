@@ -28,9 +28,9 @@ class StaticEntity(pygame.sprite.Sprite):
     def update(self):
         self.update_vel()
         self.update_pos()
-        print('sprite pos:', self.pos_x, self.pos_y)
-        print('rect pos:', self.rect.x, self.rect.y)
-        print('!physics_shape_pos', self.physics_shape.body.position[0], self.physics_shape.body.position[1])
+        # print('sprite pos:', self.pos_x, self.pos_y)
+        # print('rect pos:', self.rect.x, self.rect.y)
+        # print('!physics_shape_pos', self.physics_shape.body.position[0], self.physics_shape.body.position[1])
 
 
     def set_physics_engine(self, physics_engine: PhysicsEngine):

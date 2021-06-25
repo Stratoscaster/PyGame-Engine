@@ -2,6 +2,8 @@ import os
 
 import pygame.font
 import pymunk
+pygame.font.init()
+
 # PYMUNK PHYSICS
     # Player Physics Characteristics
 PLAYER_MASS = 1
@@ -12,6 +14,9 @@ PLAYER_BODY_TYPE = pymunk.Body.KINEMATIC
 DIRT_MASS = 1
 DIRT_INERTIA = 100
 DIRT_BODY_TYPE = pymunk.Body.STATIC
+
+# DEBUGGING CONSTANTS
+DRAW_SPRITE_POSITIONS = True
 
 # User Input Info
 # Keyboard
@@ -41,8 +46,8 @@ START_BTN_RELEASE = 'START_BTN_RELEASE'
 SELECT_BTN_RELEASE = 'SELECT_BTN_RELEASE'
 
 # FONTS
-pygame.font.init()
-DEBUG_FONT = pygame.font.SysFont('arial', size=10)
+
+DEBUG_FONT = pygame.font.SysFont('consolas', size=10)
 
 # Display Constants
 FULL_SCREEN = 0
@@ -92,8 +97,7 @@ SPRITE_NAMES.extend([
     DIRT_32x32_SPRITE_NAME
 ])
 
-# DEBUGGING CONSTANTS
-DRAW_SPRITE_POSITIONS = True
+
 
 # NATIVE RESOLUTION SETTINGS
 NATIVE_WIDTH = 480

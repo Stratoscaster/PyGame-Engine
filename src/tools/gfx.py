@@ -38,11 +38,14 @@ class GFX:
 
             if c.DRAW_SPRITE_POSITIONS:
                 for sprite in layer:
-                    pygame.draw.circle(self.canvas, color=(0, 255, 0), center=(sprite.rect.x, sprite.rect.y), radius=2)
+                    sprite_circle = pygame.draw.circle(self.canvas, color=(0, 255, 0), center=(sprite.rect.x, sprite.rect.y), radius=1)
+                    if sprite_circle.collidepoint(pygame.mouse.get_pos()[0] / c.SCALE, pygame.mouse.get_pos()[1]/c.SCALE):
+                        print('sprite rect pos:',sprite.rect.topleft)
 
         if c.DRAW_SPRITE_POSITIONS:
             sprite_draw_pos_text = c.DEBUG_FONT.render('rect positions drawn', True, color_list.GREEN, color_list.BLACK)
             self.canvas.blit(sprite_draw_pos_text, c.NATIVE_TOP_LEFT)
+
 
         # Leave scaling and display update at end of draw method
         if c.SCALE > 1:

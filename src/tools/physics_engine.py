@@ -32,8 +32,8 @@ class PhysicsEngine:
             for step in range(0, number_of_steps):
                 self.space.step(seconds_to_simulate / number_of_steps)
 
-        for body in self.space.bodies:
-            print('body in space:', body.position)
+        # for body in self.space.bodies:
+        #     print('body in space:', body.position)
 
 
     def update_sprites(self):
