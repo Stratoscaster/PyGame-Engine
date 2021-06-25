@@ -1,4 +1,6 @@
 import pygame
+from pip._internal.utils.deprecation import deprecated
+
 import tools.constants as c
 import tools.color_list as colors
 from tools.physics_engine import PhysicsEngine
@@ -7,6 +9,7 @@ import pymunk
 # StaticEntity would represent something that can only move, and nothing else. It would not have game-based mechanics such as health, etc
 # StaticEntity cannot be controlled by the player
 # StaticEntities do not have animations or states
+
 
 class StaticEntity(pygame.sprite.Sprite):
     def __init__(self, image=pygame.Surface(c.MEDIUM_TILE_SIZE)):
@@ -49,15 +52,19 @@ class StaticEntity(pygame.sprite.Sprite):
     def update_vel(self):
         pass
 
+    # TODO:
+    # - Update to use pymunk instead of manually changing pos_x and updating rect.x (etc)
     def update_pos(self):
         if self.physics_shape is not None:
-            print('test')
             self.pos_x = int(self.physics_shape.body.position[0])
             self.pos_y = int(self.physics_shape.body.position[1])
-            self.rect.x = int(self.pos_x)
+            self.rect.x = int(self.pos_x) # must update self.rect in order to move sprite image
             self.rect.y = int(self.pos_y)
         else:
             print('No physics shape for static entity.')
+
+
+
 
     #####################
     # Getters & Setters #
@@ -96,6 +103,9 @@ class StaticEntity(pygame.sprite.Sprite):
     def set_acc_y(self, acceleration):
         self.acc_y = acceleration
 
+
+
+
     def set_target_vel_x(self, target_vel_x, acc_x=None, stay_on_target_vel_x=False):
         if acc_x is None:
             acc_x = self.acc_x
@@ -103,6 +113,7 @@ class StaticEntity(pygame.sprite.Sprite):
         self.acc_x = abs(acc_x)
         self.target_vel_x_active = True
         self.stay_on_target_vel_x = stay_on_target_vel_x
+
 
     def set_target_vel_y(self, target_vel_y, acc_y=None, stay_on_target_vel_y=False):
         if acc_y is None:
@@ -112,9 +123,11 @@ class StaticEntity(pygame.sprite.Sprite):
         self.target_vel_y_active = True
         self.stay_on_target_vel_y = stay_on_target_vel_y
 
+
     def unset_target_vel_x(self):
         self.target_vel_x_active = False
         self.stay_on_target_vel_x = False
+
 
     def unset_target_vel_y(self):
         self.target_vel_y_active = False

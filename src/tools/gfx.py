@@ -1,6 +1,8 @@
 import pygame
+import tools.color_list as color_list
 import tools.constants as c
 class GFX:
+
     def __init__(self):
         self.layer_0 = pygame.sprite.Group()
         self.layer_1 = pygame.sprite.Group()
@@ -34,6 +36,15 @@ class GFX:
         for layer in self.layers:
             layer.draw(self.canvas)
 
+            if c.DRAW_SPRITE_POSITIONS:
+                for sprite in layer:
+                    pygame.draw.circle(self.canvas, color=(0, 255, 0), center=(sprite.rect.x, sprite.rect.y), radius=2)
+
+        if c.DRAW_SPRITE_POSITIONS:
+            sprite_draw_pos_text = c.DEBUG_FONT.render('rect positions drawn', True, color_list.GREEN, color_list.BLACK)
+            self.canvas.blit(sprite_draw_pos_text, c.NATIVE_TOP_LEFT)
+
+        # Leave scaling and display update at end of draw method
         if c.SCALE > 1:
             pygame.transform.scale(self.canvas, c.DISPLAY_SIZE, display)
         else:
