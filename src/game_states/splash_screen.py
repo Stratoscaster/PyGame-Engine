@@ -26,8 +26,8 @@ class SplashScreen(GameState):
         # Calculate ground height, init player
         ground_y = c.NATIVE_HEIGHT - (32 * (num_dirt_layers))
 
-        self.initialize_player((100, ground_y))
-
+        self.initialize_player()
+        self.player.set_pos((100, ground_y - self.player.rect.height))
         self.add_sprite(self.player, 4)
         self.set_actor(self.player)
 

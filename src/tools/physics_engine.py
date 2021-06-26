@@ -1,7 +1,7 @@
 import pygame
 import pymunk
 import tools.constants as c
-
+from pymunk.shapes import Shape
 class PhysicsEngine:
 
     def __init__(self, game_state):
@@ -21,7 +21,6 @@ class PhysicsEngine:
 
     def update(self):
         self.update_simulation()
-        self.update_sprites()
 
     def update_simulation(self):
         if self.dt != 0:
@@ -32,19 +31,18 @@ class PhysicsEngine:
             for step in range(0, number_of_steps):
                 self.space.step(seconds_to_simulate / number_of_steps)
 
-        # for body in self.space.bodies:
-        #     print('body in space:', body.position)
-
-
-    def update_sprites(self):
-        for sprite in self.sprites:
-            sprite.update()
-
     def add_object_to_space(self, body, shape):
         self.space.add(body, shape)
 
     def update_dt_frame_scaling(self, dt):
         self.dt = dt
+
+    def force_sprite(self, sprite, force_vector: tuple):
+        from base.static_entity import StaticEntity
+        if isinstance(sprite, StaticEntity):
+            if isinstance(sprite.physics_shape, pymunk.Shape):
+                sprite.physics_shape.body.apply_force_at_local_point(force_vector, sprite.rect.center)
+
 
 
 class CollisionDetection:

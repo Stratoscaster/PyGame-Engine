@@ -28,9 +28,15 @@ class StaticEntity(pygame.sprite.Sprite):
     def update(self):
         self.update_vel()
         self.update_pos()
-        # print('sprite pos:', self.pos_x, self.pos_y)
-        # print('rect pos:', self.rect.x, self.rect.y)
-        # print('!physics_shape_pos', self.physics_shape.body.position[0], self.physics_shape.body.position[1])
+        if c.DEBUG_SPRITE_SHAPE_POSITIONS:
+            print('')
+            print('sprite pos:', self.pos_x, self.pos_y)
+            print('rect pos:', self.rect.x, self.rect.y)
+            if isinstance(self.physics_shape, pymunk.Shape):
+                print('!physics_shape_pos', self.physics_shape.body.position[0], self.physics_shape.body.position[1])
+                print('!physics_shape_force', self.physics_shape.body.force)
+                print('!physics_shape_velocity', self.physics_shape.body.velocity)
+
 
 
     def set_physics_engine(self, physics_engine: PhysicsEngine):
@@ -52,14 +58,13 @@ class StaticEntity(pygame.sprite.Sprite):
     def update_vel(self):
         pass
 
-    # TODO:
-    # - Update to use pymunk instead of manually changing pos_x and updating rect.x (etc)
+    #[DONE] TODO: Update to use pymunk instead of manually changing pos_x and updating rect.x (etc)
+    #TODO: gfx's rect position not matching pymunk?
     def update_pos(self):
-        if self.physics_shape is not None:
+        if isinstance(self.physics_shape, pymunk.Shape):
             self.pos_x = int(self.physics_shape.body.position[0])
             self.pos_y = int(self.physics_shape.body.position[1])
-            self.rect.x = int(self.pos_x) # must update self.rect in order to move sprite image
-            self.rect.y = int(self.pos_y)
+            self.rect.topleft = tuple((int(self.physics_shape.body.position[0]), int(self.physics_shape.body.position[1])))
         else:
             print('No physics shape for static entity.')
 
@@ -73,14 +78,20 @@ class StaticEntity(pygame.sprite.Sprite):
     def set_pos(self, xy):
         self.set_pos_x(xy[0])
         self.set_pos_y(xy[1])
+        if isinstance(self.physics_shape, pymunk.Shape):
+            self.physics_shape.body.position = xy
 
     def set_pos_x(self, x):
         self.pos_x = x
         self.rect.centerx = int(x)
+        # if isinstance(self.physics_shape, pymunk.Shape):
+        #     self.physics_shape.body.position[0] = x
 
     def set_pos_y(self, y):
         self.pos_y = y
         self.rect.centery = int(self.pos_y)
+        # if isinstance(self.physics_shape, pymunk.Shape):
+        #     self.physics_shape.body.position[1] = y
 
     def get_pos(self):
         return (self.pos_x, self.pos_y)

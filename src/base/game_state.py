@@ -20,14 +20,12 @@ class GameState:
         self.is_controllable = False
         self.is_done = False
 
-    def initialize_player(self, start_pos: tuple):
+    def initialize_player(self):
         self.player = PlayerEntity(image=self.sprite_manager.get_img(c.PLAYER_SPRITE_NAME))
-        self.player.set_pos(start_pos)
+        self.player.set_pos((0,0))
         self.player.set_physics_engine(self.physics)
         self.player.create_set_get_physics_shape(c.PLAYER_MASS, c.PLAYER_INERTIA, c.PLAYER_BODY_TYPE)
-
-
-
+        self.player.physics_shape.elasticity = 0
 
     def update(self):
         self.physics.update()

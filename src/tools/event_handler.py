@@ -61,29 +61,14 @@ class EventHandler():
         # if pressed_keys[pygame.K_b]: # B button
         #     self.a_btn_cmd.execute(actor)
 
-
-
-
+        # keep at bottom
         self.previous_pressed_keys_state = pressed_keys
 
-        # ---- Previous key handling method ----
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_w: # Up
-        #         self.up_arrow_cmd.execute(actor)
-        #     elif event.key == pygame.K_s: # Down
-        #         self.down_arrow_cmd.execute(actor)
-        #     elif event.key == pygame.K_a: # Left
-        #         self.left_arrow_cmd.execute(actor)
-        #     elif event.key == pygame.K_d: # Right
-        #         self.right_arrow_cmd.execute(actor)
-        #     if event.key == pygame.K_b:
-        #         self.a_btn_cmd.execute(actor)
     def handle_joystick_events(self, event, actor):
         pass
 
 
     @staticmethod
-
     def quit_game():
         pygame.quit()
         quit()
