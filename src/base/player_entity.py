@@ -9,6 +9,7 @@ from base.character_entity import CharacterEntity
 # A Character-Entity is a class that inherits DynamicEntity(StaticEntity(Sprite))
 # A Character-Entity class has other game-related attributes such as health, ammo, walk speed, etc
 
+
 class PlayerEntity(CharacterEntity):
     WALK_SPEED_NAME = 'WALK_SPEED'
     WALK_ACCEL_NAME = 'WALK_ACCEL'
