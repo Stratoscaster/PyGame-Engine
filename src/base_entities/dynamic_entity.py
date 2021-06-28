@@ -1,6 +1,6 @@
 import pygame
 
-from base.static_entity import StaticEntity
+from base_entities.static_entity import StaticEntity
 from tools.animation import AnimationGroup
 from tools.entity_state import EntityStateGroup
 import tools.color_list as colors

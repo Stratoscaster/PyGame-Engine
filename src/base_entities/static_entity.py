@@ -23,7 +23,7 @@ class StaticEntity(pygame.sprite.Sprite):
 
         self.physics_engine_set = False
         self.physics_engine = None
-        self.physics_shape = None
+        self.shape = None
 
     def update(self):
         self.update_vel()
@@ -32,10 +32,10 @@ class StaticEntity(pygame.sprite.Sprite):
             print('')
             print('sprite pos:', self.pos_x, self.pos_y)
             print('rect pos:', self.rect.x, self.rect.y)
-            if isinstance(self.physics_shape, pymunk.Shape):
-                print('!physics_shape_pos', self.physics_shape.body.position[0], self.physics_shape.body.position[1])
-                print('!physics_shape_force', self.physics_shape.body.force)
-                print('!physics_shape_velocity', self.physics_shape.body.velocity)
+            if isinstance(self.shape, pymunk.Shape):
+                print('!physics_shape_pos', self.shape.body.position[0], self.shape.body.position[1])
+                print('!physics_shape_force', self.shape.body.force)
+                print('!physics_shape_velocity', self.shape.body.velocity)
 
 
 
@@ -44,13 +44,16 @@ class StaticEntity(pygame.sprite.Sprite):
         self.physics_engine = physics_engine
 
     def set_physics_shape(self, shape: pymunk.Shape):
-        self.physics_shape = shape
+        self.shape = shape
 
-    def create_set_get_physics_shape(self, entity_mass, entity_inertia, entity_body_type):
+    def create_set_get_physics_shape(self, entity_mass, entity_inertia, entity_body_type, elasticity = None):
+        # TODO rewrite to enable non-Poly Shapes
         entity_body = pymunk.Body(entity_mass, entity_inertia, entity_body_type)
         entity_body.position = (self.pos_x, self.pos_y)
         entity_rect_verts = [self.rect.topleft, self.rect.topright, self.rect.bottomright, self.rect.bottomleft]
         entity_shape = pymunk.shapes.Poly(body=entity_body, vertices=entity_rect_verts)
+        if elasticity is not None:
+            entity_shape.elasticity = elasticity
         self.set_physics_shape(entity_shape)
         self.physics_engine.add_object_to_space(entity_shape.body, entity_shape)
         return entity_shape
@@ -61,10 +64,10 @@ class StaticEntity(pygame.sprite.Sprite):
     #[DONE] TODO: Update to use pymunk instead of manually changing pos_x and updating rect.x (etc)
     #TODO: gfx's rect position not matching pymunk?
     def update_pos(self):
-        if isinstance(self.physics_shape, pymunk.Shape):
-            self.pos_x = int(self.physics_shape.body.position[0])
-            self.pos_y = int(self.physics_shape.body.position[1])
-            self.rect.topleft = tuple((int(self.physics_shape.body.position[0]), int(self.physics_shape.body.position[1])))
+        if isinstance(self.shape, pymunk.Shape):
+            self.pos_x = int(self.shape.body.position[0])
+            self.pos_y = int(self.shape.body.position[1])
+            self.rect.topleft = tuple((int(self.shape.body.position[0]), int(self.shape.body.position[1])))
         else:
             print('No physics shape for static entity.')
 
@@ -78,8 +81,8 @@ class StaticEntity(pygame.sprite.Sprite):
     def set_pos(self, xy):
         self.set_pos_x(xy[0])
         self.set_pos_y(xy[1])
-        if isinstance(self.physics_shape, pymunk.Shape):
-            self.physics_shape.body.position = xy
+        if isinstance(self.shape, pymunk.Shape):
+            self.shape.body.position = xy
 
     def set_pos_x(self, x):
         self.pos_x = x

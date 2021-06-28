@@ -34,7 +34,8 @@ class GFX:
     def draw(self, display):
         self.canvas.fill(c.BG_COLOR)
         for layer in self.layers:
-            layer.draw(self.canvas)
+            for sprite in layer:
+                layer.draw(self.canvas)
 
             if c.DRAW_SPRITE_POSITIONS:
                 for sprite in layer:

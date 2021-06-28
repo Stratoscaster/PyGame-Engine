@@ -12,7 +12,7 @@ class PhysicsEngine:
         self.space.gravity = (0 , 100)
 
     def add_sprite(self, sprite):
-        from base.static_entity import StaticEntity
+        from base_entities.static_entity import StaticEntity
         if isinstance(sprite, StaticEntity):
             sprite.set_physics_engine(self)
             self.sprites.append(sprite)
@@ -31,6 +31,7 @@ class PhysicsEngine:
             for step in range(0, number_of_steps):
                 self.space.step(seconds_to_simulate / number_of_steps)
 
+
     def add_object_to_space(self, body, shape):
         self.space.add(body, shape)
 
@@ -38,10 +39,10 @@ class PhysicsEngine:
         self.dt = dt
 
     def force_sprite(self, sprite, force_vector: tuple):
-        from base.static_entity import StaticEntity
+        from base_entities.static_entity import StaticEntity
         if isinstance(sprite, StaticEntity):
-            if isinstance(sprite.physics_shape, pymunk.Shape):
-                sprite.physics_shape.body.apply_force_at_local_point(force_vector, sprite.rect.center)
+            if isinstance(sprite.shape, pymunk.Shape):
+                sprite.shape.body.apply_force_at_local_point(force_vector, sprite.rect.center)
 
 
 

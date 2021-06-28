@@ -16,9 +16,11 @@ DIRT_INERTIA = 100
 DIRT_BODY_TYPE = pymunk.Body.STATIC
 
 # DEBUGGING CONSTANTS
-DRAW_SPRITE_POSITIONS = True
+DRAW_SPRITE_POSITIONS = False
 DEBUG_PLAYER_INPUTS = False
 DEBUG_SPRITE_SHAPE_POSITIONS = False
+DEBUG_SLEEP_MODE = True
+FREEZE_FRAME_KEY = 'TILDE_KEY'
 
 # User Input Info
 # Keyboard
@@ -31,6 +33,8 @@ UP_ARROW_RELEASE = 'UP_ARROW_RELEASE'
 DOWN_ARROW_RELEASE = 'DOWN_ARROW_RELEASE'
 LEFT_ARROW_RELEASE = 'LEFT_ARROW_RELEASE'
 RIGHT_ARROW_RELEASE = 'RIGHT_ARROW_RELEASE'
+
+LEFT_MOUSE_BTN = 'LEFT_MOUSE_BTN'
 
 # Controller
 A_BTN = 'A_BTN'
@@ -54,7 +58,7 @@ DEBUG_FONT = pygame.font.SysFont('consolas', size=10)
 # Display Constants
 FULL_SCREEN = 0
 SCALE = 2
-FPS = 60
+FPS = 75
 BG_COLOR = (30,25,30)
 
 # Game States
@@ -92,13 +96,20 @@ LARGE_TILE_SIZE = (32, 32)
 # Sprite Image Names
 PLAYER_SPRITE_NAME = 'player_sprite'
 DIRT_32x32_SPRITE_NAME = 'dirt_32x32_sprite'
+RED_ENEMY_SPRITE_NAME = 'red_enemy_sprite'
 
 SPRITE_NAMES = []
 SPRITE_NAMES.extend([
     PLAYER_SPRITE_NAME,
-    DIRT_32x32_SPRITE_NAME
+    DIRT_32x32_SPRITE_NAME,
+    RED_ENEMY_SPRITE_NAME
 ])
-
+# add any custom sprite paths here to be imported into the sprite manager
+SPRITE_PATHS = {
+    PLAYER_SPRITE_NAME : os.path.join('src','graphics', 'player_v1.png'),
+    DIRT_32x32_SPRITE_NAME : os.path.join('src', 'graphics', 'dirt_32x32.png'),
+    RED_ENEMY_SPRITE_NAME : os.path.join('src', 'graphics', 'enemy_red_16x16.png')
+}
 
 
 # NATIVE RESOLUTION SETTINGS

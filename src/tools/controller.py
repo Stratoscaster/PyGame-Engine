@@ -17,7 +17,7 @@ class Controller:
         last_time = time.time()
         while self.running:
             self.dt = time.time() - last_time
-            self.dt *= 60 # for 60 fps
+            self.dt *= c.FPS # for 60 fps
             # print(str(self.dt)[:5])
             # if we are running below 60 fps, it will compensate for the low framerate and keep movement correct
             last_time = time.time()
@@ -45,7 +45,7 @@ class Controller:
     def update_events(self):
         self.current_state.physics.update_dt_frame_scaling(self.dt)
         self.current_state.actor.update_dt_frame_scaling(self.dt)
-        self.event_handler.handle_events(self.current_state.actor)
+        self.event_handler.handle_events(self.current_state.actor, self.current_state)
 
     def update_game_state(self):
         if self.current_state.is_done:

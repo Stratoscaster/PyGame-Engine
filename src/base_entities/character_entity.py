@@ -1,11 +1,11 @@
 import pygame
 
-from base.static_entity import StaticEntity
+from base_entities.static_entity import StaticEntity
 from tools.animation import AnimationGroup
 from tools.entity_state import EntityStateGroup
 import tools.color_list as colors
 import tools.constants as c
-from base.dynamic_entity import DynamicEntity
+from base_entities.dynamic_entity import DynamicEntity
 
 # A Character-Entity is a class that inherits DynamicEntity(StaticEntity(Sprite))
 # A Character-Entity class has other game-related attributes such as health, ammo, walk speed, etc
